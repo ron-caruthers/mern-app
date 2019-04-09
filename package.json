@@ -2,6 +2,7 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "concurrently": "^4.1.0",
+    "create-react-app": "^2.1.8",
     "express": "^4.16.4",
     "file-loader": "^1.1.11",
     "image-webpack-loader": "^4.3.1",
@@ -17,9 +18,20 @@
   },
   "devDependencies": {},
   "scripts": {
+    "client-install": "npm install --prefix client",
     "start": "node server.js",
-    "server": "nodemon server.js"
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Ron C",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ron-caruthers/mern-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ron-caruthers/mern-app/issues"
+  },
+  "homepage": "https://github.com/ron-caruthers/mern-app#readme"
 }
