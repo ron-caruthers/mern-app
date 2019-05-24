@@ -19,8 +19,7 @@ class LocationManager extends Component {
   state = {
     modal: false,
     name: '',
-    mhp: '',
-    iotypes: ''
+    mhp: ''
   };
 
   static propTypes = {
@@ -31,12 +30,14 @@ class LocationManager extends Component {
     isAuthenticated: PropTypes.bool
   };
 
+  // Toggle modal
   toggle = () => {
     this.setState({
       modal: !this.state.modal,
     });
   };
 
+  // set input values when changed
   handleInputChange = e => {
     let change = { 
       [e.target.name]: e.target.value 
@@ -44,23 +45,23 @@ class LocationManager extends Component {
     this.setState(change);
   };
 
+  // Load Locales
   componentDidMount() {
     this.props.getLocales();
   }
 
+  // Delete a locale
   onDeleteClick = id => {
     this.props.deleteLocale(id);
   };
 
+  // Update a location's values
   updateLocation = (e, id, keys) => {
     e.preventDefault();
 
-    const { name, mhp, iotypes } = this.state;
-
     const values = [
-      name,
-      mhp,
-      iotypes
+      this.state.name,
+      this.state.mhp
     ];
 
     for (var i=0; i<keys.length; i++) {
@@ -69,10 +70,10 @@ class LocationManager extends Component {
 
     // Close Modal
     this.toggle();
-
     this.props.getLocales();
   }
 
+  // get/show location in modal when selected
   showLocale = (e, id) => {
     e.preventDefault();
 
@@ -81,8 +82,7 @@ class LocationManager extends Component {
       .then(res => {
         this.setState({
           name: res.payload.location.name,
-          mhp: res.payload.location.mhp,
-          io_types: res.payload.location.iotypes
+          mhp: res.payload.location.mhp
         });
       });
     
@@ -90,7 +90,8 @@ class LocationManager extends Component {
     this.toggle();
   };
 
-  reJigger = (e, locales) => {
+  // Temporary fix for re-assigning location ids
+  reAssign = (e, locales) => {
     e.preventDefault();
 
     for (var i=0; i<locales.length; i++) {
@@ -149,7 +150,7 @@ class LocationManager extends Component {
             {location && location.name}: ({location && location.id})
           </ModalHeader>
           <ModalBody>
-            <Form onSubmit={(e)=>{this.updateLocation(e, location._id, [e.target.name.id, e.target.mhp.id, e.target.iotypes.id])}}>
+            <Form onSubmit={(e)=>{this.updateLocation(e, location._id, [e.target.name.id, e.target.mhp.id])}}>
               <FormGroup>
                 <Label for="name">Location</Label>
                 <Input
@@ -169,15 +170,6 @@ class LocationManager extends Component {
                   value={this.state.mhp}
                   onChange={this.handleInputChange}
                 />
-                <Label className="mt-3" for="io_types">IO Types</Label>
-                <Input
-                  type="text"
-                  name="io_types"
-                  id="io_types"
-                  placeholder="iBuyer Types"
-                  value={this.state.io_types}
-                  onChange={this.handleInputChange}
-                />
                 <Button
                   color="dark"
                   style={{ marginTop: "2rem" }}
@@ -194,9 +186,9 @@ class LocationManager extends Component {
               className="mt-3 float-right"
               color="dark"
               size="sm"
-              onClick={(e)=>{this.reJigger(e, locales)}}
+              onClick={(e)=>{this.reAssign(e, locales)}}
             >
-              Rejigger IDs
+              Fix IDs
             </Button>
           </div>
         )}

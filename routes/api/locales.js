@@ -14,29 +14,6 @@ router.get("/", (req, res) => {
     .then(locales => res.json(locales));
 });
 
-// @route Update locale IDs
-// @desc Update Locale IDs based on name
-// @access Private
-// router.post("/:id&:key=:value", auth, (req, res) => {
-//   var key = {};
-//   key[req.params.key] = req.params.value;
-//   Locale.findByIdAndUpdate(
-//     // the id of the item to find
-//     req.params.id,
-//     // the change to be made. Mongoose will smartly combine your existing 
-//     // document with this change, which allows for partial updates too
-//     { $set: key},
-//     // an option that asks mongoose to return the updated version 
-//     // of the document instead of the pre-updated one.
-//     {new: true},
-//     // the callback function
-//     (err, location) => {
-//     // Handle any possible database errors
-//       if (err) return res.status(500).send(err);
-//     }
-//   )
-// });
-
 // @route GET api/locales
 // @desc Get A Locale
 // @access Public
@@ -53,17 +30,10 @@ router.post("/:id&:key=:value", auth, (req, res) => {
   var key = {};
   key[req.params.key] = req.params.value;
   Locale.findByIdAndUpdate(
-    // the id of the item to find
     req.params.id,
-    // the change to be made. Mongoose will smartly combine your existing 
-    // document with this change, which allows for partial updates too
     { $set: key},
-    // an option that asks mongoose to return the updated version 
-    // of the document instead of the pre-updated one.
-    {new: true},
-    // the callback function
+    {new: true}, // return the updated version of the document
     (err, location) => {
-    // Handle any possible database errors
       if (err) return res.status(500).send(err);
     }
   )
